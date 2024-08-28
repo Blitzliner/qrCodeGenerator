@@ -1,0 +1,124 @@
+/* GENERAL */
+html {
+	--bulma-link-h: 160 !important;
+}
+.form-container {
+	min-width: 400px;
+}
+.container {
+	display: flex;
+}
+.button {
+	margin-right: 8px;
+}
+
+/* PREVIE */
+.preview-container {
+	text-align: center;
+	margin-top: 20px;
+	flex: 1;
+	padding-left: 20px;
+}
+#qr-preview {
+	border: 1px solid black;
+	width: 360px;
+	height: 360px;
+	position: relative;
+	background-color: #ddd;
+}
+#qr-preview > p {
+	font-size: 2em;
+	color: var(--bulma-light-on-scheme);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* FORM / FIELDSET */
+legend {
+	margin-bottom: 0px !important; /* overwrite to zero for empty looking fieldset */
+}
+legend.settings-advanced {
+    cursor: pointer;
+}
+legend.settings-advanced + div.settings-content {
+	display: none;
+}
+legend > span.ic {
+	margin-left: -8px;
+	width: 20px;
+	height: 20px;
+	margin-right: 6px;
+}
+
+/* SHAPE */
+[type=radio] {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+[type=radio] + img {
+	width: 30px;
+	height: 30px;
+	margin: 0px 8px 4px 0px;
+	padding: 2px;
+	display: inline-block;
+	cursor: pointer;
+	outline: 2px solid #444;
+	border-radius: 4px;
+	padding: 3px;
+	/* #444 */
+	filter: invert(25%) sepia(1%) saturate(1453%) hue-rotate(19deg) brightness(89%) contrast(83%);
+}
+[type=radio]:checked + img {
+	outline: 2px solid #000;
+	/* white */
+	filter: invert(100%) sepia(9%) saturate(3%) hue-rotate(281deg) brightness(112%) contrast(100%);
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		[type=radio] + img {
+			outline: 2px solid #bbb;
+			filter: invert(71%) sepia(0%) saturate(570%) hue-rotate(206deg) brightness(109%) contrast(83%);
+		}
+
+		[type=radio]:checked + img {
+			outline: 2px solid #000;
+			/* black */
+			filter: invert(0%) sepia(8%) saturate(7469%) hue-rotate(355deg) brightness(90%) contrast(110%);
+		}
+
+	}
+}
+
+/* TABS */
+.tab-content {
+	display: none;
+}
+.tab-content.is-active {
+	display: block;
+}
+.tabs a {
+	padding-left: 1.4rem;
+	padding-right: 1.4rem;
+}
+
+/* ICONS
+e.g.:  https://flowbite.com/icons/
+converter: https://www.fffuel.co/eeencode/
+.ic {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	background-repeat: no-repeat;
+}
+.ic-arrow-right {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0idy1bMzJweF0gaC1bMzJweF0gdGV4dC1ncmF5LTgwMCBkYXJrOnRleHQtd2hpdGUiIGFyaWEtaGlkZGVuPSJ0cnVlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0IDI0Ij4gPHBhdGggc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIyIiBkPSJtOSA1IDcgNy03IDciLz4gPC9zdmc+");
+}
+.ic-arrow-down {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyBjbGFzcz0idy1bMzJweF0gaC1bMzJweF0gdGV4dC1ncmF5LTgwMCBkYXJrOnRleHQtd2hpdGUiIGFyaWEtaGlkZGVuPSJ0cnVlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im0xOSA5LTcgNy03LTciLz4KPC9zdmc+Cg==");
+}
+*/

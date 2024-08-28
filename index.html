@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="form-container">
+                <h1 class="title">QR Code Generator</h1>
+                <p>Our QR Code Generator allows you to create static QR codes quickly and securely. Designed with privacy in mind, your data is never stored on our servers.</p>
+                <div class="content">
+                    <ul>
+                        <li>
+                            <strong>Static QR Codes:</strong> Generate fixed information QR codes for URLs, text, contact details, and more.
+                        </li>
+                        <li>
+                            <strong>Data Privacy:</strong> All data is processed locally on your device and never stored or transmitted to our servers.
+                        </li>
+                        <li>
+                            <strong>Easy to Use:</strong> Simple, user-friendly interface requiring no technical expertise.
+                        </li>
+                        <li>
+                            <strong>Customizable:</strong> Choose colors or add an icon to suit your style or branding.
+                        </li>
+                        <li>
+                            <strong>High-Quality Output:</strong> Download high-resolution SVG files, perfect for both print and digital use.
+                        </li>
+                    </ul>
+                </div>
+                <!-- QR Code Preview -->
+                <fieldset class="box">
+                    <legend class="subtitle">Preview</legend>
+                    <div class="columns">
+                        <div class="column is-8">
+                            <div id="qr-preview">
+                                <p>PREVIEW</p>
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <div class="buttons">
+                                <a id="download-svg" class="button is-link is-fullwidth" download="qrcode.svg">
+                                    Download SVG
+                                </a>
+                                <a id="download-jpg" class="button is-link is-fullwidth" download="qrcode.jpg">
+                                    Download JPG
+                                </a>
+                                <a id="btn-reset" class="button is-link is-outlined is-fullwidth">
+                                    Reset Configuration
+                                </a>
+                                <!--
+                                <a id="btn-reset" class="button is-link is-outlined is-fullwidth">
+                                    Load Configuration
+                                </a>
+                                <a id="btn-reset" class="button is-link is-outlined is-fullwidth">
+                                    Save Configuration
+                                </a>-->
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Data Settings -->
+                <fieldset class="box settings">
+                    <legend class="subtitle">Data</legend>
+                    <div class="field">
+                        <div class="tabs is-centered is-boxed">
+                            <ul>
+                                <li class="is-active" data-tab="tab-text">
+                                    <a>TEXT</a>
+                                </li>
+                                <li data-tab="tab-url">
+                                    <a>URL</a>
+                                </li>
+                                <li data-tab="tab-vcard">
+                                    <a>VCARD</a>
+                                </li>
+                                <li data-tab="tab-wifi">
+                                    <a>WIFI</a>
+                                </li>
+                                <li data-tab="tab-email">
+                                    <a>E-MAIL</a>
+                                </li>
+                                <li data-tab="tab-sms">
+                                    <a>SMS</a>
+                                </li>
+                                <!-- Twitter, Facebook, etc. -->
+                            </ul>
+                        </div>
+                        <!-- Text -->
+                        <div id="tab-text" class="tab-content is-active">
+                            <div class="control" title="Enter your text here">
+                                <textarea class="live-update-input textarea" id="qr-text" placeholder="Enter your text" rows="3"></textarea>
+                            </div>
+                            <p id="text_char_counter" class=" has-text-right is-size-6">0/2953</p>
+                        </div>
+                        <!-- Url -->
+                        <div id="tab-url" class="tab-content">
+                            <div class="control" title="Enter your url here">
+                                <input class="input live-update-input" type="text" id="qr-url" placeholder="Enter your URL: e.g.: https://www.example.com/">
+                            </div>
+                        </div>
+                        <!-- V-Card -->
+                        <div id="tab-vcard" class="tab-content">
+                            <div class="field">
+                                <label class="label">Name</label>
+                            </div>
+                            <div class="field is-horizontal">
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="text" placeholder="First Name" id="vcard_first_name" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="text" placeholder="Surename" id="vcard_surename">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Organization</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="text" placeholder="Organization" id="vcard_organization">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Title</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="text" placeholder="Title" id="vcard_title">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Telephone Number</label>
+                            </div>
+                            <div class="field is-horizontal">
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="tel" placeholder="Phone Number: +49 123 4567890" id="vcard_tel_cell">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="tel" placeholder="Work Telephone Number: +49 123 4567890" id="vcard_tel_work">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="tel" placeholder="Home Telephone Number: +49 123 4567890" id="vcard_tel_home">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Email</label>
+                            </div>
+                            <div class="field is-horizontal">
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="email" placeholder="Home Email" id="vcard_email_home">
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <input class="live-update-input input is-expanded" type="email" placeholder="Work Email" id="vcard_email_work">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Address</label>
+                                <div class="control">
+                                    <textarea class="live-update-input textarea" placeholder="Address" id="vcard_address"></textarea>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Website</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="url" placeholder="Website" id="vcard_url">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Raw Preview</label>
+                                <p class='preview' id="vcard_preview">-</p>
+                            </div>
+                        </div>
+                        <!-- Wifi -->
+                        <div id="tab-wifi" class="tab-content">
+                            <div class="field">
+                                <label class="label">WiFi SSID</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="text" placeholder="WiFi SSID" id="wifi_ssid" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">WiFi Password</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="password" placeholder="WiFi Password" id="wifi_password" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Encryption Type</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select id="wifi_encryption" class="live-update-change" title="Select encryption type">
+                                            <option value="WPA">WPA/WPA2</option>
+                                            <option value="WEP">WEP</option>
+                                            <option value="nopass">None</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="wifi_hidden" class="live-update-change">
+                                    Hidden Network
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="label">Raw Preview</label>
+                                <p class='preview' id="wifi_preview">-</p>
+                            </div>
+                        </div>
+                        <!-- E-Mail -->
+                        <div id="tab-email" class="tab-content">
+                            <div class="field">
+                                <label class="label" for="recipient">Recipient</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="email" id="email_recipient" name="recipient" required placeholder="recipient">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="subject">Subject</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="text" id="email_subject" name="subject" placeholder="subject">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="body">Body</label>
+                                <div class="control">
+                                    <textarea class="live-update-input textarea" id="email_body" name="body" placeholder="Body"></textarea>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Raw Preview</label>
+                                <p class='preview' id="email_preview">-</p>
+                            </div>
+                        </div>
+                        <!-- SMS -->
+                        <div id="tab-sms" class="tab-content">
+                            <div class="field">
+                                <label class="label" for="phone">Phone Number</label>
+                                <div class="control">
+                                    <input class="live-update-input input" type="tel" id="sms_phone" name="phone" required placeholder="Enter the phone number e.g.: +49 123 456789">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label" for="message">Message</label>
+                                <div class="control">
+                                    <textarea class="live-update-input textarea" id="sms_message" name="message" placeholder="Enter your sms text"></textarea>
+                                    <p id="sms_char_counter" class=" has-text-right is-size-6">0/160</p>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Raw Preview</label>
+                                <p class='preview' id="sms_preview">-</p>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Appearance Settings -->
+                <fieldset class="box settings">
+                    <legend class="subtitle">Appearance</legend>
+                    <div class="field">
+                        <div class="tabs is-centered is-boxed">
+                            <ul>
+                                <li class="is-active" data-tab="tab-shape">
+                                    <a>SHAPE</a>
+                                </li>
+                                <li data-tab="tab-logo">
+                                    <a>LOGO</a>
+                                </li>
+                                <li data-tab="tab-label">
+                                    <a>LABEL</a>
+                                </li>
+                                <li data-tab="tab-advance">
+                                    <a>ADVANCED</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Shape -->
+                        <div id="tab-shape" class="tab-content is-active">
+                            <div class="field">
+                                <label class="label">Light Color</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="color" id="qr-color-light" value="#ffffff">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Dark Color</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="color" id="qr-color-dark" value="#000000">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Body Type</label>
+                                <div class="radios radios-body-type">
+                                    <!-- convert to base65: https://www.fffuel.co/eeencode/ -->
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type" checked>
+                                        <img src="icons/none.svg" title="None" data-icon="">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/horizontal.svg" title="Horizontal" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTAsNGgyNHYxNmgtMjR6Ii8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/vertical.svg" title="Vertical" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTQsMGgxNnYyNGgtMTZ6Ii8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/square.svg" title="Square" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTIsMmgyMHYyMGgtMjB6Ii8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/square_small.svg" title="Small Square" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBkPSJNNyA1YTIgMiAwIDAgMC0yIDJ2MTBhMiAyIDAgMCAwIDIgMmgxMGEyIDIgMCAwIDAgMi0yVjdhMiAyIDAgMCAwLTItMkg3WiIvPgo8L3N2Zz4=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/diamond.svg" title="Diamond" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTAsMTJMMTIsMEwyNCwxMkwxMiwyNFoiLz4KPC9zdmc+Cg==">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/hexagon.svg" title="Hexagon" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTAsMTJMNiwyLEwxOCwyLEwyNCwxMixMMTgsMjIsTDYsMjJ6Ii8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/octagon.svg" title="Octagon" data-icon="data:image/svg+xml;base64,CjxzdmcgYXJpYS1oaWRkZW49InRydWUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiBmaWxsPSJjdXJyZW50Q29sb3IiIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPHBhdGggZD0iTTAsMTZMMCw4LEw4LDAsTDE2LDAsTDI0LDgsTDI0LDE2TDE2LDI0LEw4LDI0TDgsMjR6Ii8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/circle.svg" title="Circle" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgLz4KPC9zdmc+Cg==">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/circle_small.svg" title="Small Circle" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgLz4KPC9zdmc+Cg==">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/circle_tiny.svg" title="Tiny Circle" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI4IiAvPgo8L3N2Zz4K">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/apple.svg" title="Apple" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBkPSJNMTcuNTM3IDEyLjYyNWE0LjQyMSA0LjQyMSAwIDAgMCAyLjY4NCA0LjA0NyAxMC45NiAxMC45NiAwIDAgMS0xLjM4NCAyLjg0NWMtLjgzNCAxLjIxOC0xLjcgMi40MzItMy4wNjIgMi40NTctMS4zNC4wMjUtMS43Ny0uNzk0LTMuMy0uNzk0LTEuNTMxIDAtMi4wMS43NjktMy4yNzUuODItMS4zMTYuMDQ5LTIuMzE3LTEuMzE4LTMuMTU4LTIuNTMyLTEuNzItMi40ODQtMy4wMzItNy4wMTctMS4yNy0xMC4wNzdBNC45IDQuOSAwIDAgMSA4LjkxIDYuODg0YzEuMjkyLS4wMjUgMi41MS44NjkgMy4zLjg2OS43ODkgMCAyLjI3LTEuMDc1IDMuODI4LS45MTdhNC42NyA0LjY3IDAgMCAxIDMuNjYgMS45ODQgNC41MjQgNC41MjQgMCAwIDAtMi4xNiAzLjgwNW0tMi41Mi03LjQzMkE0LjQgNC40IDAgMCAwIDE2LjA2IDJhNC40ODIgNC40ODIgMCAwIDAtMi45NDUgMS41MTYgNC4xODUgNC4xODUgMCAwIDAtMS4wNjEgMy4wOTMgMy43MDggMy43MDggMCAwIDAgMi45NjctMS40MTZaIi8+Cjwvc3ZnPgo=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="body-type">
+                                        <img src="icons/heart.svg" title="Heart" data-icon="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9ImN1cnJlbnRDb2xvciIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICA8cGF0aCBkPSJtMTIuNzUgMjAuNjYgNi4xODQtNy4wOThjMi42NzctMi44ODQgMi41NTktNi41MDYuNzU0LTguNzA1LS44OTgtMS4wOTUtMi4yMDYtMS44MTYtMy43Mi0xLjg1NS0xLjI5My0uMDM0LTIuNjUyLjQzLTMuOTYzIDEuNDQyLTEuMzE1LTEuMDEyLTIuNjc4LTEuNDc2LTMuOTczLTEuNDQyLTEuNTE1LjA0LTIuODI1Ljc2LTMuNzI0IDEuODU1LTEuODA2IDIuMjAxLTEuOTE1IDUuODIzLjc3MiA4LjcwNmw2LjE4MyA3LjA5N2MuMTkuMjE2LjQ2LjM0Ljc0My4zNGEuOTg1Ljk4NSAwIDAgMCAuNzQzLS4zNFoiLz4KPC9zdmc+Cg==">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Edge Type</label>
+                                <div class="radios radios-edges">
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges" checked>
+                                        <img src="icons/none.svg" title="None" data-icon="">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges">
+                                        <img src="icons/edges/rounded.svg" title="Rounded Corners" data-icon="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDcgNyIgZmlsbD0iY3VycmVudENvbG9yIj4KICAgIDxwYXRoIGQ9Im0yLjI1IDdoMi41NWMxLjIgMCAyLjItMSAyLjItMi4ydi0yLjU1YzAtMS4yNS0xLTIuMjUtMi4yNS0yLjI1aC0yLjU1Yy0xLjIgMC0yLjIgMS0yLjIgMi4ydjIuNTVjMCAxLjI1IDEgMi4yNSAyLjI1IDIuMjV6bTMuNzUtNC42djIuMmMwIC43NS0uNjUgMS40LTEuNCAxLjRoLTIuMmMtLjggMC0xLjQtLjYtMS40LTEuNHYtMi4yYzAtLjc1LjY1LTEuNCAxLjQtMS40aDIuMmMuOCAwIDEuNC42IDEuNCAxLjR6Ii8+CiAgICA8cGF0aCBkPSJtNS4wNjMgMi44Njh2MS4zNzhjMCAuNDA4LS40MDkuODE3LS44NjguODE3aC0xLjMyN2MtLjUxIDAtLjg2OC0uMzU4LS44NjgtLjg2OHYtMS4zMjdjMC0uNDYuNDA4LS44NjguODY4LS44NjhoMS4zNzhjLjQ1OSAwIC44MTcuMzU3LjgxNy44Njh6Ii8+Cjwvc3ZnPg==">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges">
+                                        <img src="icons/edges/round.svg" title="Round" data-icon="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDcgNyIgZmlsbD0iY3VycmVudENvbG9yIj4KICAgIDxwYXRoIGQ9Im03IDMuNWMwLTEuOTUtMS41NS0zLjUtMy41LTMuNXMtMy41IDEuNTUtMy41IDMuNSAxLjU1IDMuNSAzLjUgMy41IDMuNS0xLjU1IDMuNS0zLjV6bS0zLjUtMi41YzEuNCAwIDIuNSAxLjEgMi41IDIuNXMtMS4xIDIuNS0yLjUgMi41LTIuNS0xLjEtMi41LTIuNSAxLjEtMi41IDIuNS0yLjV6Ii8+CiAgICA8cGF0aCBkPSJtMiAzLjVhMS41IDEuNSA5MCAxMDMgMCAxLjUgMS41IDkwIDEwLTMgMCIvPgo8L3N2Zz4=">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges">
+                                        <img src="icons/edges/one_edge.svg" title="One edge" data-icon="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDcgNyIgZmlsbD0iY3VycmVudENvbG9yIj4KICAgIDxwYXRoIGQ9Im03IDd2LTQuOGMwLTEuMi0xLTIuMi0yLjItMi4yaC0yLjU1Yy0xLjI1IDAtMi4yNSAxLTIuMjUgMi4ydjIuNmMwIDEuMiAxIDIuMiAyLjIgMi4yaDQuOHptLTQuNi02aDIuMmMuNzUgMCAxLjQuNjUgMS40IDEuNHYzLjZoLTMuNmMtLjc1IDAtMS40LS42NS0xLjQtMS40di0yLjJjMC0uNzUuNjUtMS40IDEuNC0xLjR6Ii8+CiAgICA8cGF0aCBkPSJtMi44NjggMmgxLjMyN2MuNDU5IDAgLjg2OC40MDguODY4Ljg2OHYyLjE5NWgtMi4xOTVhLjg5NS44OTUgMCAwMS0uODY4LS44Njl2LTEuMzI3YzAtLjQ1Ny40MDktLjg2Ny44NjgtLjg2N3oiLz4KPC9zdmc+">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges">
+                                        <img src="icons/edges/one_edge_round.svg" title="One edge round" data-icon="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDcgNyIgZmlsbD0iY3VycmVudENvbG9yIj4KICAgIDxwYXRoIGQ9Im03IDdoLTMuNWMtMiAwLTMuNS0xLjUtMy41LTMuNXMxLjUtMy41IDMuNS0zLjUgMy41IDEuNiAzLjUgMy41djMuNXptLTYtMy41YzAgMS40IDEuMSAyLjUgMi41IDIuNWgyLjV2LTIuNWMwLTEuNC0xLjEtMi41LTIuNS0yLjVzLTIuNSAxLjEtMi41IDIuNSIvPgogICAgPHBhdGggZD0ibTIgMy41MzFjMCAuODY4LjY2NCAxLjUzMSAxLjUzMiAxLjUzMWgxLjUzMXYtMS41M2MwLS44NjktLjY2My0xLjUzMi0xLjUzMS0xLjUzMnMtMS41MzEuNjYzLTEuNTMxIDEuNTMyIi8+Cjwvc3ZnPg==">
+                                    </label>
+                                    <label>
+                                        <input class="live-update-change" type="radio" name="edges">
+                                        <img src="icons/edges/two_edges.svg" title="Two Edges" data-icon="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDcgNyIgZmlsbD0iY3VycmVudENvbG9yIj4KICAgIDxwYXRoIGQ9Im0wIDBoNC44YzEuMiAwIDIuMiAxIDIuMiAyLjJ2NC44aC00LjhjLTEuMiAwLTIuMi0xLTIuMi0yLjJ2LTQuOHptNiA2di0zLjZjMC0uNzUtLjY1LTEuNC0xLjQtMS40aC0zLjZ2My42YzAgLjc1LjY1IDEuNCAxLjQgMS40aDMuNnoiLz4KICAgIDxwYXRoIGQ9Im01LjA2MiA1LjA2M3YtMS41MzNjMC0uODY3LS42NjMtMS41My0xLjUzMS0xLjUzaC0xLjUzMXYxLjUzMmMwIC44NjcuNjYzIDEuNTMgMS41MzEgMS41M2gxLjUzMXoiLz4KPC9zdmc+">
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Size</label>
+                                <div class="control" title="Image size in pixel. &#010;Only relevant for jpg image format.">
+                                    <input class="input live-update-input" type="number" id="qr-size" value="256">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Frame size</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="number" id="qr-frame" value="1" min="0" max="100" title="Enter frame size in blocks.">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Logo -->
+                        <div id="tab-logo" class="tab-content">
+                            <div class="field">
+                                <label class="label">Image</label>
+                                <div class="control">
+                                    <input class="input live-update-change" type="file" id="qr-icon" accept="image/*">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Opacity</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="number" id="qr-icon-opacity" value="1.0" min="0" title="Enter the opacity in percent.">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input class="live-update-change" type="checkbox" id="qr-icon-fullscreen"> Fullscreen
+                                </label>
+                            </div>
+                            <div class="field">
+                                Please use a high error correction level under the Advanced tab to compensate for missing data blocks due to the image.
+                            </div>
+                        </div>
+                        <!-- Label -->
+                        <div id="tab-label" class="tab-content">
+                            <div class="field">
+                                <label class="label">Text</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="text" id="qr-label-text" placeholder="Enter label text">
+                                </div>
+                            </div>
+                            <div class="columns is-multiline">
+                                <div class="column is-one-third">
+                                    <div class="field">
+                                        <label class="label">Font Family</label>
+                                        <div class="control">
+                                            <select class="input live-update-input" id="qr-label-font-family">
+                                                <option value="Arial">Arial</option>
+                                                <option value="Verdana">Verdana</option>
+                                                <option value="Helvetica">Helvetica</option>
+                                                <option value="Times New Roman">Times New Roman</option>
+                                                <option value="Courier New">Courier New</option>
+                                                <option value="Georgia">Georgia</option>
+                                                <option value="Palatino">Palatino</option>
+                                                <option value="Garamond">Garamond</option>
+                                                <option value="Comic Sans MS">Comic Sans MS</option>
+                                                <option value="Trebuchet MS">Trebuchet MS</option>
+                                                <option value="Arial Black">Arial Black</option>
+                                                <option value="Impact">Impact</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-one-third">
+                                    <div class="field">
+                                        <label class="label">Font Size</label>
+                                        <div class="control">
+                                            <input class="input live-update-input" type="number" id="qr-label-font-size" value="16" min="1" title="Enter font size in pixels.">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-one-third">
+                                    <div class="field">
+                                        <label class="label">Font Type</label>
+                                        <div class="control">
+                                            <div class="select">
+                                                <select id="qr-label-font-type" class="live-update-change" title="Select font type">
+                                                    <option value="normal">Normal</option>
+                                                    <option value="bold">Bold</option>
+                                                    <option value="italic">Italic</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="field">
+                                <label class="label">Font Color</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="color" id="qr-label-font-color" value="#000000">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="qr-label-use-background" class="live-update-change" checked>
+                                    Use Background color
+                                </label>
+                            </div>
+                            <div class="field">
+                                <label class="label">Background Color</label>
+                                <div class="control">
+                                    <input class="input live-update-input" type="color" id="qr-label-background-color" value="#ffffff">
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Padding Top/Bottom</label>
+                                        <div class="control">
+                                            <input class="input live-update-input" type="number" id="qr-label-padding-tb" value="1" min="0" max="30">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="field">
+                                        <label class="label">Padding Left/Right</label>
+                                        <div class="control">
+                                            <input class="input live-update-input" type="number" id="qr-label-padding-lr" value="1" min="0" max="30">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                Please use a high error correction level under the Advanced tab to compensate for missing data blocks due to the image.
+                            </div>
+                        </div>
+                        <!-- Advanced -->
+                        <div id="tab-advance" class="tab-content">
+                            <div class="field">
+                                <label class="label">Error Correction Level</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select id="qr-error-level" class="live-update-change" title="Select error correction level.&#010;The QR Code provides the L (Low), M (Medium), &#010;Q (Quartile), and H (High) possible values. &#010;These values allow for 7%, 15%, 25%, and 30% recovery &#010;of symbol code words">
+                                            <option value="L">Low (L)</option>
+                                            <option value="M">Medium (M)</option>
+                                            <option value="Q">Quartile (Q)</option>
+                                            <option value="H">High (H)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Mask</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select id="qr-mask" class="live-update-change" title="Select mask for data pixel.&#010;Automatic mode will choose the perfect fit.">
+                                            <option value="-1">Automatic</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </section>
+
+    <script src="scripts/qrcodegen.js"></script>
+    <script src="scripts/script.js" type="module"></script>
+</body>
+</html>
